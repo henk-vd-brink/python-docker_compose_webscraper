@@ -30,8 +30,43 @@ services:
       - database
     command: uvicorn app.app:app --host 0.0.0.0 --port 8000
 
+  privoxy:
+    container_name: privoxy
+    build: ./privoxy
+    networks:
+      - privoxy-tor
+    ports:
+      - 8118:8118
+    restart: always
 
+  tor:
+    container_name: tor
+    build:
+      context: ./tor
+      args:
+        password: foo
+    networks:
+      - privoxy-tor
+    # links:
+    #   - tor_controller
+    #   - privoxy
 
-      
+  tor_controller:
+    container_name: tor_controller
+    build:
+      context: ./tor_controller
+    networks:
+      - privoxy-tor
+    ports:
+      - 5001:5001
+    volumes:
+      - ./tor_controller:/code
+    depends_on: 
+      - tor
+      - privoxy
+    command: python app.py
+
+networks:
+  privoxy-tor:
 
 
