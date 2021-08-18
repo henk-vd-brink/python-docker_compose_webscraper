@@ -1,0 +1,1 @@
+from app.models.car_listing import Base, CarListing

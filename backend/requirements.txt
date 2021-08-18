@@ -1,0 +1,11 @@
+dependency-injector
+fastapi
+uvicorn
+pyyaml
+sqlalchemy
+pytest
+requests
+pytest-cov
+pydantic
+factory-boy
+psycopg2
