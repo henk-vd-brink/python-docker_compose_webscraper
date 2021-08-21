@@ -53,4 +53,3 @@ class TorController(object):
 
 	def __exit__(self, *args):
 		self.controller.close()
-

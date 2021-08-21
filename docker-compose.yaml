@@ -6,6 +6,8 @@ services:
     container_name: database
     ports:
       - "5432:5432"
+    networks:
+      - privoxy-tor
     # volumes:
       # - ./database/postgres.conf:/etc/postgresql/postgresql.conf
       # - ./database/data:/var/lib/postgresql/data
@@ -26,8 +28,10 @@ services:
       - DEBUG=True
     ports:
       - 5000:8000
+    networks:
+      - privoxy-tor
     depends_on: 
-      - database
+      - privoxy
     command: uvicorn app.app:app --host 0.0.0.0 --port 8000
 
   privoxy:
@@ -47,24 +51,24 @@ services:
         password: foo
     networks:
       - privoxy-tor
-    # links:
-    #   - tor_controller
-    #   - privoxy
-
-  tor_controller:
-    container_name: tor_controller
-    build:
-      context: ./tor_controller
-    networks:
-      - privoxy-tor
-    ports:
-      - 5001:5001
-    volumes:
-      - ./tor_controller:/code
-    depends_on: 
-      - tor
+    links:
+      - backend
       - privoxy
-    command: python app.py
+
+  # tor_controller:
+  #   container_name: tor_controller
+  #   build:
+  #     context: ./tor_controller
+  #   networks:
+  #     - privoxy-tor
+  #   ports:
+  #     - 5001:5001
+  #   volumes:
+  #     - ./tor_controller:/code
+  #   depends_on: 
+  #     - tor
+  #     - privoxy
+  #   command: python app.py
 
 networks:
   privoxy-tor:

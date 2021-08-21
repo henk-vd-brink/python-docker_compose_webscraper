@@ -13,9 +13,20 @@ class CarListingRepository:
         with self.session_factory() as session:
             return session.query(CarListing).filter(CarListing.id == car_listing_id).first()
 
+    def get_car_listing_by_title(self, car_listing_title):
+        with self.session_factory() as session:
+            return session.query(CarListing).filter(CarListing.title == car_listing_title).first()
+
     def create_car_listing(self, car_listing):
         with self.session_factory() as session:
-            db_car_listing= CarListing(price=car_listing.price)
+            db_car_listing= CarListing( title=car_listing.title,
+                                        price=car_listing.price,
+                                        brand=car_listing.brand,
+                                        model=car_listing.model,
+                                        mileage=car_listing.mileage,
+                                        fuel_type=car_listing.fuel_type,
+                                        year_of_construction=car_listing.year_of_construction,
+                                        advertiser_id = car_listing.advertiser_id)
             session.add(db_car_listing)
             session.commit()
             session.refresh(db_car_listing)

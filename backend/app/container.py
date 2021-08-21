@@ -2,8 +2,8 @@ from dependency_injector import containers, providers
 
 from app.database import Database
 
-from app.repositories.car_listing_repository import CarListingRepository
-from app.service import CarListingService
+from app.repositories import CarListingRepository, AdvertiserRepository
+from app.service import CarListingService, AdvertiserService
 
 
 
@@ -36,6 +36,21 @@ class CarListings(containers.DeclarativeContainer):
         car_listing_repository=car_listing_repo
     )
 
+class Advertisers(containers.DeclarativeContainer):
+
+    config = providers.Configuration()
+    databases = providers.DependenciesContainer()
+
+    advertiser_repo = providers.Factory(
+        AdvertiserRepository,
+        session_factory=databases.db_provider.provided.session
+    )
+
+    advertiser_service = providers.Factory(
+        AdvertiserService,
+        advertiser_repository=advertiser_repo
+    )
+
 class Application(containers.DeclarativeContainer):
 
     config = providers.Configuration()
@@ -43,3 +58,4 @@ class Application(containers.DeclarativeContainer):
     databases = providers.Container(Databases, config=config.databases)
 
     car_listing = providers.Container(CarListings, config=config.car_listings, databases=databases)
+    advertiser = providers.Container(Advertisers, config=config.advertisers, databases=databases)

@@ -9,3 +9,4 @@ pytest-cov
 pydantic
 factory-boy
 psycopg2
+stem

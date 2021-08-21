@@ -1,0 +1,2 @@
+from app.repositories.advertiser_repository import AdvertiserRepository
+from app.repositories.car_listing_repository import CarListingRepository
