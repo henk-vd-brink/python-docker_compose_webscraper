@@ -5,6 +5,10 @@ import requests
 from bs4 import BeautifulSoup
 
 class CarListing(ListingBaseClass):
+
+    __postendpoint__ = "/car_listings"
+    __webpageurl__ = "https://www.marktplaats.nl/l/auto-s/"
+    
     _title: str = ""
 
     price: int = 0
@@ -22,9 +26,8 @@ class CarListing(ListingBaseClass):
                         "Bouwjaar": "year_of_construction",
                         "Titel": "title"} 
 
-    def __init__(self, web_page_listing, *args, **kwargs):
-        self._listing_url = web_page_listing.listing_url
-        self._title = web_page_listing.title
+    def __init__(self, web_page_listing, crud, *args, **kwargs):
+        super().__init__(web_page_listing, crud, *args, **kwargs)
 
     @property
     def listing_url(self):
@@ -64,7 +67,6 @@ class CarListing(ListingBaseClass):
 
         return output_json
 
-
     def _get_information_table(self, soup):
         information_table_elements = self._get_information_table_elements(soup)
         for information_table_element in information_table_elements:
@@ -78,8 +80,6 @@ class CarListing(ListingBaseClass):
                 
                 setattr(self, self._attribute_dict[formatted_key], value)
             
-
-
     def _format_value(self, value):
         formatted_value = value.replace(" ", "").replace("€", "").replace(".","")
         if "," in formatted_value:
@@ -91,6 +91,13 @@ class CarListing(ListingBaseClass):
         information_table_elements = page_soup.find_all("div", class_ = "spec-table-item")
         return information_table_elements
  
+    def __repr__(self):
+        repr_json = {}
+        for key, value in self._attribute_dict.items():
+            repr_json[value] = getattr(self, value)
+        return repr_json
 
+    def __str__(self):
+        return str(self.__repr__())
 
     

@@ -8,8 +8,8 @@ class WebPageListing:
         self.title = title
         self.listing_url = f"https://marktplaats.nl{listing_url}"
 
-
 class WebPage:
+
     def __init__(self, web_page_url):
         self._web_page_url = web_page_url
 
@@ -37,6 +37,7 @@ class WebPage:
                 break
             time.sleep(i)
         else:
+            #todo: New IP pl0x
             raise ConnectionRefusedError(f"Could not get web page {url} \n {response.text}")
         return response.text
         
