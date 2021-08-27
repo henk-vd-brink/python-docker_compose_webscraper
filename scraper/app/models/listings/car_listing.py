@@ -91,6 +91,7 @@ class CarListing(ListingBaseClass):
         information_table_elements = page_soup.find_all("div", class_ = "spec-table-item")
         return information_table_elements
  
+    @property
     def __repr__(self):
         repr_json = {}
         for key, value in self._attribute_dict.items():

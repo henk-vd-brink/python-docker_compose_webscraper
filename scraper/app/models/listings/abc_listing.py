@@ -13,4 +13,14 @@ class ListingBaseClass(metaclass=ABCMeta):
 
     def post_data(self):
         url = "test"+self.__postendpoint__
-        self.crud.post_data(url=url, payload = self.__repr__())
+        self.crud.post_data(url=url, payload=self.__repr__)
+
+    @abstractmethod
+    def __str__(self):
+        pass
+
+    @property
+    @abstractmethod
+    def __repr__(self):
+        pass
+    
