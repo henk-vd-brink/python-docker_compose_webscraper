@@ -5,12 +5,12 @@ from pydantic import BaseModel
 class CarListingBase(BaseModel):
     price: int
     title: str
-    brand: str
-    model: str
+    brand_model: str
     mileage: int
     fuel_type: str
     year_of_construction: int
-    advertiser_id: int
+    advertiser_name: str
+    category: str
 
 class CarListing(CarListingBase):
     id: int
@@ -24,12 +24,11 @@ class CarListingCreate(CarListingBase):
 
 class AdvertiserBase(BaseModel):
     name: str
-    activity: int
-    rating: int
+    activity: str
+    rating: str
     
 
 class Advertiser(AdvertiserBase):
-    id: int
 
     class Config:
         orm_mode = True

@@ -10,8 +10,9 @@ class WebPageListing:
 
 class WebPage:
 
-    def __init__(self, web_page_url):
+    def __init__(self, web_page_url, crud):
         self._web_page_url = web_page_url
+        self.crud = crud
 
     def get_listings(self):
         response_html = self._get_html_from_url(self._web_page_url)
@@ -30,16 +31,24 @@ class WebPage:
         web_page_listing_object = WebPageListing(title=title, listing_url=listing_url)
         return web_page_listing_object
 
+
+
     def _get_html_from_url(self, url):
         for i in range(0, 2):
-            response = requests.get(url)
+            response = self.crud.get_data(url)
             if response.status_code == 200:
                 break
             time.sleep(i)
         else:
-            #todo: New IP pl0x
-            raise ConnectionRefusedError(f"Could not get web page {url} \n {response.text}")
+            response = self.crud.change_ip()
+            if response.status_code != 200: 
+                raise ConnectionRefusedError("Could not connect with Privoxy/Tor")
+
+        response = self.crud.get_data(url)
+        if response.status_code != 200: 
+                raise ConnectionRefusedError("Could not connect with Marktplaats")
         return response.text
+
         
                 
                 

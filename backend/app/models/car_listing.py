@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, Integer, String
 from app.database import Base
 
 
@@ -9,8 +9,8 @@ class CarListingBase(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, unique=True)
     price = Column(Integer)
-    brand = Column(String)
-    model = Column(String)
+    brand_model = Column(String)
     mileage = Column(Integer)
     fuel_type = Column(String)
     year_of_construction = Column(Integer)
+    category = Column(String)

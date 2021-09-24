@@ -21,12 +21,12 @@ class CarListingRepository:
         with self.session_factory() as session:
             db_car_listing= CarListing( title=car_listing.title,
                                         price=car_listing.price,
-                                        brand=car_listing.brand,
-                                        model=car_listing.model,
+                                        brand_model=car_listing.brand_model,
                                         mileage=car_listing.mileage,
                                         fuel_type=car_listing.fuel_type,
                                         year_of_construction=car_listing.year_of_construction,
-                                        advertiser_id = car_listing.advertiser_id)
+                                        advertiser_name=car_listing.advertiser_name,
+                                        category=car_listing.category)
             session.add(db_car_listing)
             session.commit()
             session.refresh(db_car_listing)

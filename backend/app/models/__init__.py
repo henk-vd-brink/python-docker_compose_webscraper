@@ -5,7 +5,7 @@ from app.models.car_listing import Base, CarListingBase
 from app.models.advertiser import AdvertiserBase
 
 class CarListing(CarListingBase):
-    advertiser_id = Column(Integer, ForeignKey("advertisers.id"))
+    advertiser_name = Column(String, ForeignKey("advertisers.name"))
 
 class Advertiser(AdvertiserBase):
     pass

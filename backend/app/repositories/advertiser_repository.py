@@ -9,10 +9,6 @@ class AdvertiserRepository:
         with self.session_factory() as session:
             return session.query(Advertiser).offset(skip).limit(limit).all()
 
-    def get_advertiser_by_id(self, advertiser_id):
-        with self.session_factory() as session:
-            return session.query(Advertiser).filter(Advertiser.id == advertiser_id).first()
-
     def get_advertiser_by_name(self, advertiser_name):
         with self.session_factory() as session:
             return session.query(Advertiser).filter(Advertiser.name == advertiser_name).first()
