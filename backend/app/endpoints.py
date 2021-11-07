@@ -18,6 +18,7 @@ def read_car_listings(
     limit: int = 100,
     car_listing_service: CarListingService = Depends(Provide[Application.car_listing.car_listing_service]),
 ):
+
     car_listings = car_listing_service.get_car_listings(skip=skip, limit=limit)
     return car_listings
 
@@ -27,6 +28,7 @@ def read_car_listing(
     car_listing_id: int,
     car_listing_service: CarListingService = Depends(Provide[Application.car_listing.car_listing_service]),
 ):
+
     db_car_listing = car_listing_service.get_car_listing_by_id(car_listing_id)
     if db_car_listing is None:
         raise HTTPException(status_code=404, detail="Car listing not found")
@@ -38,7 +40,7 @@ def create_car_listing(
     car_listing: schemas.CarListingCreate,
     car_listing_service: CarListingService = Depends(Provide[Application.car_listing.car_listing_service])
 ):
-    print(car_listing)
+
     db_car_listing=car_listing_service.get_car_listing_by_title(car_listing.title)
 
     if db_car_listing:
@@ -90,6 +92,6 @@ def set_tor_controller():
     tor_controller.change_ip()
     new_ip_address = tor_controller.get_ip()
 
-    response_json["old_ip"] = old_ip_address
-    response_json["new_ip"] = new_ip_address
+    response_json.update({"old_ip": old_ip_address})
+    response_json.update({"new_ip": new_ip_address})
     return response_json

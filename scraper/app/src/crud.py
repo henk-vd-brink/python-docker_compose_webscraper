@@ -6,7 +6,7 @@ import time
 class Crud():
     _proxies={  "http": "http://localhost:8118",
                 "https": "https://localhost:8118"  }
-    
+   
     def post_data(self, url, payload):
         payload = json.dumps(payload)
         response = requests.post(url, payload)
@@ -33,9 +33,10 @@ class Crud():
         try:
             response = requests.get(url, proxies = self._proxies)
         except Exception:
-            return type("response", (), {"status_code": "50x"})
+            return type("Response", (), {"status_code": "50x"})
         else:
             print(f"Retrieved data from: {url}, {response.status_code}.")
+            print(response.cookies.get_dict())
             return response
     
     def change_ip(self):

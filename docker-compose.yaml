@@ -30,6 +30,10 @@ services:
       - 5000:8000
     networks:
       - privoxy-tor-backend-network
+    environment:
+      - PYTHONUNBUFFERED=1
+      - HOST=0.0.0.0
+      - PORT=8000
     depends_on: 
       - privoxy
     command: uvicorn app.app:app --host 0.0.0.0 --port 8000
@@ -55,15 +59,28 @@ services:
       - backend
       - privoxy
 
+  pgadmin:
+    image: dpage/pgadmin4
+    depends_on:
+      - database
+    ports:
+      - "5555:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+    restart: unless-stopped
+    networks:
+      - privoxy-tor-backend-network
+
   # scraper:
   #   container_name: scraper
-  #   build: 
+  #   build:
   #     context: ./scraper
   #   networks:
-  #     - scraper-network
+  #     - privoxy-tor-backend-network
 
 networks:
   privoxy-tor-backend-network:
-  # scraper-network
+  scraper-network:
 
 

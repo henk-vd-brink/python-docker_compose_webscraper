@@ -1,5 +1,4 @@
 from app.models import CarListing
-from app.schemas import CarListingCreate
 
 class CarListingRepository:
     def __init__(self, session_factory):
@@ -26,7 +25,10 @@ class CarListingRepository:
                                         fuel_type=car_listing.fuel_type,
                                         year_of_construction=car_listing.year_of_construction,
                                         advertiser_name=car_listing.advertiser_name,
-                                        category=car_listing.category)
+                                        category=car_listing.category,
+                                        apk_till=car_listing.apk_till,
+                                        wheel_base=car_listing.wheel_base,
+                                        engine_capacity=car_listing.engine_capacity)
             session.add(db_car_listing)
             session.commit()
             session.refresh(db_car_listing)

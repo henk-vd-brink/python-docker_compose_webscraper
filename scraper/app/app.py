@@ -1,19 +1,19 @@
 
-from models import CarListing, WebPage, WebPageListing, CarListingAdvertiser
+from .models import CarListing, WebPage, WebPageListing, CarListingAdvertiser
 from bs4 import BeautifulSoup
 
-from src.crud import Crud, MockCrud
-from src.sleep import Sleep
-from src.page import Page
+from .src.crud import Crud, MockCrud
+from .src.sleep import Sleep
+from .src.page import Page
 
 crud = Crud()
 
 listing_object = CarListing
 advertiser_object = CarListingAdvertiser
-page = Page(initial_page_number=50, base_url=listing_object.__webpageurl__)
+page = Page(initial_page_number=0, base_url=listing_object.__webpageurl__)
 
 def run():
-    for _ in range(0, 1000):
+    for _ in range(1, 10):
         web_page_url = page.__next__
         web_page_listings = WebPage(web_page_url=web_page_url, crud=crud).get_listings()
 

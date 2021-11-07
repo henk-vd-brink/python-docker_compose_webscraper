@@ -17,12 +17,18 @@ class CarListing(ListingBaseClass):
     year_of_construction: int = 0
     advertiser_name: str = ""
     category: str = ""
+    apk_till: str = ""
+    wheel_base: str = ""
+    engine_capacity: str = ""
 
     _attribute_map_table = {    "Prijs": {"key": "price" , "type": "int"}, 
                                 "Merk & Model": {"key": "brand_model", "type": "str"},
                                 "Brandstof": {"key": "fuel_type", "type": "str"},
                                 "Kilometerstand": {"key": "mileage", "type": "int"},
-                                "Bouwjaar" : {"key": "year_of_construction", "type": "int"}  }
+                                "Bouwjaar" : {"key": "year_of_construction", "type": "int"},
+                                "APK tot": {"key": "apk_till", "type": "str"},
+                                "Wielbasis": {"key": "wheel_base", "type": "str"},
+                                "Motorinhoud": {"key": "engine_capacity", "type": "str"}  }
 
     _attribute_map = {  **_attribute_map_table,
                         "title": {"key": "titel", "type": "str"},
@@ -56,7 +62,6 @@ class CarListing(ListingBaseClass):
         response_html = self.crud.get_html(self._listing_url)
         soup = BeautifulSoup(response_html, "html.parser")
 
-        # self._set_advertiser_name(soup)
         self._set_information_table(soup)
 
         output_json = {}
@@ -64,18 +69,13 @@ class CarListing(ListingBaseClass):
         for table_key in self._table_keys:
             output_json[table_key] = getattr(self, table_key)
         return output_json
-
-    # def _set_advertiser_name(self, page_soup):
-    #     try:
-    #         self.advertiser_name = page_soup.find("h2", class_ = "name mp-text-header3")["title"]
-    #     except TypeError:
-    #         self.advertiser_name = "_"
         
     def _set_information_table(self, soup):
         information_table_elements = self._get_information_table_elements(soup)
         for information_table_element in information_table_elements:
-            key = information_table_element.find("span", class_ = "key").getText()
-            value = information_table_element.find("span", class_ = "value").getText()    
+            key = information_table_element.find("strong", class_ = "CarAttributes-label").getText()
+            value = information_table_element.find("span", class_ = "CarAttributes-value").getText()
+            print(key, value)    
             formatted_key = key.replace(":", "")
             if formatted_key in (table_attributes:=self._attribute_map_table):
                 attribute_key = table_attributes[formatted_key]["key"]
@@ -95,7 +95,7 @@ class CarListing(ListingBaseClass):
             return 0
 
     def _get_information_table_elements(self, page_soup):
-        information_table_elements = page_soup.find_all("div", class_ = "spec-table-item")
+        information_table_elements = page_soup.find_all("div", class_ = "CarAttributes-list")
         return information_table_elements
 
     def _get_category(self):

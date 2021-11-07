@@ -1,9 +1,8 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Column, String
 from app.database import Base
 
 
 class AdvertiserBase(Base):
-
     __tablename__ = "advertisers"
     
     name = Column(String, primary_key=True, index=True)

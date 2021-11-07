@@ -14,6 +14,7 @@ def create_app() -> FastAPI:
     app = FastAPI()
     app.container = container
     app.include_router(endpoints.router)
+    
     return app
 
 

@@ -1,7 +1,4 @@
-from app.schemas import CarListingCreate, AdvertiserCreate
 from app.repositories import CarListingRepository, AdvertiserRepository
-from app.models import CarListing, Advertiser
-from typing import Iterator
 
 class CarListingService:
     def __init__(self, car_listing_repository: CarListingRepository):

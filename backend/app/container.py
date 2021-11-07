@@ -5,21 +5,10 @@ from app.database import Database
 from app.repositories import CarListingRepository, AdvertiserRepository
 from app.service import CarListingService, AdvertiserService
 
-
-
-
 class Databases(containers.DeclarativeContainer):
-    """
-
-    Singleton provider provides single object.
-    It memorizes the first created object and returns it
-    on the rest of the calls.
-    """
-
+    
     config = providers.Configuration()
-
     db_provider = providers.Singleton(Database, db_url="postgresql://postgres:postgres@database:5432")
-
 
 class CarListings(containers.DeclarativeContainer):
 
@@ -54,7 +43,6 @@ class Advertisers(containers.DeclarativeContainer):
 class Application(containers.DeclarativeContainer):
 
     config = providers.Configuration()
-
     databases = providers.Container(Databases, config=config.databases)
 
     car_listing = providers.Container(CarListings, config=config.car_listings, databases=databases)

@@ -4,13 +4,6 @@ from sqlalchemy import create_engine, orm
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session
 
-# SQLALCHEMY_DATABASE_URL = "postgresql://postgres:postgres@database:5432/db"
-
-# engine = create_engine(
-#     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-# )
-# SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
 Base = declarative_base()
 
 class Database:
@@ -31,11 +24,11 @@ class Database:
     @contextmanager
     def session(self):
         session: Session = self._session_factory()
+        
         try:
             yield session
-        except Exception:
-            print("Session rollback because of exception")
+        except Exception as e:
             session.rollback()
-            raise
+            raise e
         finally:
             session.close()

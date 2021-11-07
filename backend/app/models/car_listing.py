@@ -3,7 +3,6 @@ from app.database import Base
 
 
 class CarListingBase(Base):
-
     __tablename__ = "car_listings"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -14,3 +13,6 @@ class CarListingBase(Base):
     fuel_type = Column(String)
     year_of_construction = Column(Integer)
     category = Column(String)
+    apk_till = Column(String)
+    wheel_base = Column(String)
+    engine_capacity = Column(String)

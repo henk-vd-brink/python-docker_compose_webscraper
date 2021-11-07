@@ -7,7 +7,7 @@ from dataclasses import dataclass
 class CarListingAdvertiser(ListingBaseClass):
 
     __postendpoint__ = "/advertisers"
-    __webpageurl__ = "https://www.marktplaats.nl/u/"
+    __webpageurl__ = "https://www.marktplaats.nl/v/"
 
     name: str = "_"
     activity: str = "_"

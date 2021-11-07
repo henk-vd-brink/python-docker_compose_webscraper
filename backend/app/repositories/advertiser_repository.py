@@ -1,5 +1,4 @@
 from app.models import Advertiser
-from app.schemas import AdvertiserCreate
 
 class AdvertiserRepository:
     def __init__(self, session_factory):
